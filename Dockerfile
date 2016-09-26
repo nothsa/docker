@@ -1,6 +1,24 @@
 FROM openjdk:8-jdk
 
-RUN apt-get update && apt-get install -y git curl zip && rm -rf /var/lib/apt/lists/*
+ENV DEBIAN_FRONTEND noninteractive
+RUN echo -e "\nexport TERM=xterm" >> ~/.bashrc
+
+#RUN apt-get update && apt-get install -y git curl zip && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y apt-utils
+
+# Install dependancies for PHP5
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C
+COPY ondrej-php5-trusty.list /etc/apt/sources.list.d/ondrej-php5-trusty.list
+
+# Run update and install packages
+RUN apt-get update && apt-get -y dist-upgrade
+RUN apt-get -y install git curl zip php5-cli
+
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+RUN rm -rf /var/lib/apt/lists/*
+
 
 ENV JENKINS_HOME /var/jenkins_home
 ENV JENKINS_SLAVE_AGENT_PORT 50000
@@ -61,6 +79,8 @@ EXPOSE 50000
 ENV COPY_REFERENCE_FILE_LOG $JENKINS_HOME/copy_reference_file.log
 
 USER ${user}
+
+RUN echo -e "\nexport TERM=xterm" >> ~/.bashrc
 
 COPY jenkins-support /usr/local/bin/jenkins-support
 COPY jenkins.sh /usr/local/bin/jenkins.sh
