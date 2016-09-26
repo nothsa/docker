@@ -14,6 +14,12 @@ COPY ondrej-php5-trusty.list /etc/apt/sources.list.d/ondrej-php5-trusty.list
 RUN apt-get update && apt-get -y dist-upgrade
 RUN apt-get -y install git curl zip php5-cli
 
+# Insall AWS CLI
+RUN curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
+RUN unzip awscli-bundle.zip
+RUN ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
+RUN rm -fr awscli-bundle*
+
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
