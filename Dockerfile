@@ -19,7 +19,7 @@ RUN apt-get -y install git curl zip php5-cli php5-curl
 #RUN unzip awscli-bundle.zip
 #RUN ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
 #RUN rm -fr awscli-bundle*
-RUN apt-get install python python-pip
+RUN apt-get -y install python python-pip
 RUN pip install awscli
 
 # Install Composer
