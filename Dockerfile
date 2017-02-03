@@ -12,7 +12,7 @@ COPY ondrej-php5-trusty.list /etc/apt/sources.list.d/ondrej-php5-trusty.list
 
 # Run update and install packages
 RUN apt-get update && apt-get -y dist-upgrade
-RUN apt-get -y install git curl zip php5-cli
+RUN apt-get -y install git curl zip php5-cli php5-curl
 
 # Insall AWS CLI
 RUN curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
